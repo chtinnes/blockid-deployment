@@ -1,0 +1,6 @@
+FROM java:8
+MAINTAINER https://github.com/chtinnes
+VOLUME /tmp
+ADD ./identitymanager-$JAR_VERSION.jar app.jar
+RUN bash -c 'touch /app.jar'
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
