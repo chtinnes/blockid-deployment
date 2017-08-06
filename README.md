@@ -22,6 +22,8 @@ https://github.com/jTendermint/jabci
 https://github.com/chtinnes/blockid-identity-manager
 https://github.com/chtinnes/blockid-identity-storage
 
+![blockid_deployment_logos](https://user-images.githubusercontent.com/17828327/29006056-c375859a-7ae8-11e7-914e-f3d383ea007d.png)
+
 ## How to deploy blockid testnet on kubernetes
 This is an step by step manual on how to deploy the application to kubernetes based on minikube (https://kubernetes.io/docs/getting-started-guides/minikube/).
 
