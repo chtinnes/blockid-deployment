@@ -1,0 +1,80 @@
+Prerequisites: 
+
+Installiere Git, GitBash, VirtualBox(https://www.virtualbox.org/, bzw. in Docker Toolbox installer enthalten) und Docker Toolbox(https://www.docker.com/products/docker-toolbox), Download kubectl und zu Path hinzufügen (https://kubernetes.io/docs/tasks/tools/install-kubectl/) und dann noch Minikube(https://github.com/kubernetes/minikube/releases)
+
+Dann noch eine "ordentlich vorkonfigurierte Eclipse IDE"-hier OASP IDE- besorgen:
+
+Das wars schon an Vorbereitung ;-)
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+Anleitung zum Starten der BlockId App:
+
+Schritt 1: 
+Kopiere (OASP) IDE irgendwo hin.
+Schritt 2:
+Checke manager, stroage und deployment (und SEU optional) aus im Ordner workspaces/main.
+Schritt 3:
+Führe create-or-update-workspace.bat aus
+Schritt 4:
+Start eclipse via eclipse-main.bat
+Import identity-manager and identity-storage als existing Maven projects in den workspace
+
+
+Ab hier unterscheided sich, ob lokal deployt wird oder in einem Kubernetes Cluster
+
+a.) Lokal:
+Schritt 5a: 
+Datenbank starten - Hier beschrieben mit Docker Image - Kann aber auf beliebigen Wege passieren
+Die Datenbank-Credentials der Application werden in src/main/resources/application.properties der identity-storage App konfiguriert.
+
+Docker Image starten:
+docker run --name postgres-local -e POSTGRES_PASSWORD='1234' -e POSTGRES_DB='blockid' -d postgres:alpine
+(Für Windows: Am besten Docker Quickstart Terminal verwenden oder Docker VM starten(docker-machine create --driver virtualbox default) und dann "eval $(docker-machine env)" und dann obigen "docker run" Befehl.)
+
+In den application.properties muss dann entweder die IP der vM eingetragen werden oder eine Port Forwarding für die VM eingerichtet werden (geht über Virtualbox Desktop Client)
+
+Schritt 6a:
+BlockidApplication.java(identity-storage) starten (z.B. direkt in Eclipse) 
+
+Schritt 7a:
+IdentityManagerApplication.java(identity-manager) starten (z.B. direkt in Eclipse)
+
+Schritt 8a:
+Starte tendermint node: Shell im blockid-deployment öffnen "./tendermint.exe init" und dann "./tendermint.exe node".
+
+ACHTUNG: In der version 0.10 gibt es einen Bug, dass der Ordner ~/.tendermint/cs.wal nicht angelegt wird. Dazu einfach mempool.wal kopieren und in cs.wal umbenennen.
+
+Schritt 9a: 
+Application Testen über Swagger UI: Browser -> http://localhost:8081/swagger-ui.html
+
+
+b.) Kubernetes Cluster:
+Schritt 5b:
+Start Minikube: "minikube start" (kann beim ersten mal etwas dauern)
+
+Schritt 6b:
+Baue identity-manger und identity-storage mit maven: (z.B. über Eclipse) mit goals "clean package"
+
+Schritt 7b:
+Baue Docker Images: 
+In \workspaces\main\blockid-deployment\deployment\docker eine Shell öffnen und dann "./build.sh" ausführen. (kann beim ersten mal etwas dauern)
+
+Schritt 8b:
+BlockId Testnet auf Kubernetes "Cluster" deployen:
+In Ordner \workspaces\main\blockid-deployment\deployment\kubernetes wechselnund shell öffnen,
+dann "kubectl create -f blockid-full.yaml". (kann beim ersten mal etwas dauern)
+
+Dieser Befehl erstellt alle in der YAML definierten Delpoyment Objekte im Kubernets Cluster über die vom Cluster angebotene API.
+
+Schritt 9b:
+Zum testen den Zugriff auf einen Pod freigeben (sobald das Testnet vollständig läuft): "kubectl expose pod tm-0 --type NodePort"
+NodePorts rausfinden: "kubectl get service tm-0" -> Zu Port 8081 zugeorndeter Port ist der passende NodePort.
+NodeIp rausfinden: "minikube service tm-0 --url"
+
+Browser: http://[Node_IP]:[Node_Port]/swagger-ui-html
+
+
+
+
+

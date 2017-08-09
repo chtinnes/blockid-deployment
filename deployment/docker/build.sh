@@ -5,7 +5,7 @@ export JAR_VERSION=0.2.0-SNAPSHOT
 eval $(minikube docker-env)
 
 # Build identitystorage docker image
-cp ./../../../identitystorage/target/*.jar ./identitystorage/
+cp ./../../../blockid-identity-storage/target/*.jar ./identitystorage/
 cd identitystorage
 envsubst < "Dockerfile.template" > "Dockerfile"
 docker build -t blockid-identitystorage . 
@@ -15,7 +15,7 @@ rm *.jar
 cd ..
 
 # Build identitystorage docker image
-cp ./../../../identitymanager/target/*.jar ./identitymanager/
+cp ./../../../blockid-identity-manager/target/*.jar ./identitymanager/
 cd identitymanager
 envsubst < "Dockerfile.template" > "Dockerfile"
 docker build -t blockid-identitymanager . 

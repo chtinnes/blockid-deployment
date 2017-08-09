@@ -197,6 +197,12 @@ spec:
         env:
         - name: GET_HOSTS_FROM
           value: dns
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://localhost/blockid"
+        - name: SRPING_DATASOURCE_PASSWORD
+          value: "1234"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "postgres"
         ports:
         - containerPort: 8080
 
