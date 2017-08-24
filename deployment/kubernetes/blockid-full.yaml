@@ -9,10 +9,8 @@ metadata:
     app: blockid
 spec:
   ports:
-  - port: 46656
-    name: p2p
-  - port: 46657
-    name: rpc
+  - port: 37111
+    name: dummyportforstatelessservicebugfixinlaterversions
   clusterIP: None
   selector:
     app: tm
