@@ -22,8 +22,8 @@ kind: ConfigMap
 metadata:
   name: tm-config
 data:
-  seeds: "tm-0,tm-1"
-  validators: "tm-0,tm-1"
+  seeds: "tm-0"
+  validators: "tm-0"
   validator.power: "10"
   genesis.json: |-
     {
@@ -47,7 +47,7 @@ spec:
   selector:
     matchLabels:
       app: tm
-  minAvailable: 2
+  minAvailable: 1
 ---
 apiVersion: apps/v1beta1
 kind: StatefulSet
@@ -55,7 +55,7 @@ metadata:
   name: tm
 spec:
   serviceName: blockid
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
