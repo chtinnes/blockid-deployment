@@ -1,9 +1,7 @@
+for i in {0..1}
+do
+export BC_NODE_ID=$i
 #Delete all unpersisted resources
-kubectl delete -f blockid-full.yaml
-#Delete Persistend Volume Claims TODO Variable in the number of deployments
-kubectl delete pvc tmdir-tm-0
-kubectl delete pvc imdir-tm-0
-kubectl delete pvc tmdir-tm-1
-kubectl delete pvc imdir-tm-1
-kubectl delete pvc tmdir-tm-2
-kubectl delete pvc imdir-tm-2
+kubectl delete -f blockid-full-template.yaml-${BC_NODE_ID}.yaml
+kubectl delete --namespace default --all pv,pvc
+done

@@ -62,15 +62,15 @@ In \workspaces\main\blockid-deployment\deployment\docker eine Shell öffnen und d
 
 Schritt 8b:
 BlockId Testnet auf Kubernetes "Cluster" deployen:
-In Ordner \workspaces\main\blockid-deployment\deployment\kubernetes wechselnund shell öffnen,
-dann "kubectl create -f blockid-full.yaml". (kann beim ersten mal etwas dauern)
+In Ordner \workspaces\main\blockid-deployment\deployment\kubernetes wechseln und shell öffnen,
+dann "./setup.sh" ausführen. (kann beim ersten mal etwas dauern). Dabei wird ein Kubernetescluster mit zwei statefulsets a 1 Pod angelegt. Das setupskript ist noch nicht sehr flexibel und sollte noch auf beliebig viele knoten erweitert werden. dazu müsste dann auch die blockid-full.yaml angepasst werden.
 
-Dieser Befehl erstellt alle in der YAML definierten Delpoyment Objekte im Kubernets Cluster über die vom Cluster angebotene API.
+Während des setups werden alle in der YAML definierten Delpoyment Objekte im Kubernets Cluster über die vom Cluster angebotene API erstellt.
 
 Schritt 9b:
-Zum testen den Zugriff auf einen Pod freigeben (sobald das Testnet vollständig läuft): "kubectl expose pod tm-0 --type NodePort"
-NodePorts rausfinden: "kubectl get service tm-0" -> Zu Port 8081 zugeorndeter Port ist der passende NodePort.
-NodeIp rausfinden: "minikube service tm-0 --url"
+Zum testen den Zugriff auf einen Pod freigeben (sobald das Testnet vollständig läuft): "kubectl expose pod tm-0-0 --type NodePort"
+NodePorts rausfinden: "kubectl get service tm-0-0" -> Zu Port 8081 zugeorndeter Port ist der passende NodePort.
+NodeIp rausfinden: "minikube service tm-0-0 --url"
 
 Browser: http://[Node_IP]:[Node_Port]/swagger-ui-html
 

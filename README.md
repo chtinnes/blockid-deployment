@@ -71,7 +71,9 @@ Type the following command:
 ```shellscript
 kubectl create -f blockid-full.yaml
 ```
-This will setup the environment as defined in the given yaml file.
+This will setup the environment as defined in the given yaml file. Currently this contains only one replica of the stateful set. The idea is, to have one stateful set per blockchain-node. 
+To setup a multi-node network use the setup.sh shell script. 
+
 
 ### Step 7 - Verfiy your deployment
 So far, no ports are externally exposed. The identitymanger runs Swagger for its REST services on port 8081.
@@ -85,6 +87,7 @@ Now, you can find out to which port the services have been exposed by typing
 ```shellscript
 kubectl get service tm-0. 
 ```
+In the above steps, if you are using the multi-node network then the pods are enumerated as tm-i-j (e.g. tm-0-0) where the i is the index of the statefulset and the j is the index of the replica in the statefulset.
 Check out the mapping for the port 8081, (e.g. 31337).
 Now, you can access the api of the identitymanger by typing 
 `http://[minikube node url]:[serviceport(e.g. 31337)]/swagger-ui.html` into your browsers address bar.
@@ -93,4 +96,5 @@ If you want to find out all externally exposed ports, you can use also minikube 
 minikube service tm-0 --url
 ```
 
+I
 Have fun playing around with the application.
